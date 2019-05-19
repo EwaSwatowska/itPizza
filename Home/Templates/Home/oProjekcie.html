@@ -1,0 +1,14 @@
+{% extends "Home/base.html" %}
+{% block content %}
+<h1>O projekcie Ewy....</h1>
+
+<br>
+<br>
+
+    <form method = 'POST'>
+        {% csrf_token %}
+        <input type="text" name="title" placeholder="Your Title">
+        <input type="submit" value="Save">
+    </form>
+
+{% endblock content %}

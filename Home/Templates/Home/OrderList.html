@@ -1,0 +1,87 @@
+{% extends "Home/base.html" %}
+{% block content %}
+<h1>Wybierz zamawiane pizze i okreś ich ilość</h1>
+
+
+
+<h2>Pizzeria {{ NazwaPOST }} </h2>
+<br>
+<hr>
+    <form action="/OrderHead/" method="POST" id="formOrderLstToHead">
+        {% csrf_token %}
+
+        <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
+        <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="NazwaPOST" value="{{ NazwaPOST }}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="OrderSum" value="{{ OrderSum }}"
+               hidden readonly form="formOrderLstToHead">
+        {% for posim in positionMenu %}
+            <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }}
+                   hidden readonly form="formOrderLstToHead">
+        {% endfor %}
+        <!---->
+
+    </form>
+
+    <form action="/OrderList/" method="POST" id="formOrderLst">
+        {% csrf_token %}
+
+        <div style = "max-width:300px;">
+           <button id = "btnClc" class="myButton" type = "submit"
+              value = "Oblicz" form="formOrderLst">
+              <strong>Oblicz</strong>
+           </button>
+            {% if OrderSum != 0 %}
+               <button id = "btnPlcOrder" class="myButton" type = "submit"
+                  value = "Złóż zamówienie" form="formOrderLstToHead">
+                  <strong>Złóż zamówienie</strong>
+               </button>
+            {% endif %}
+            <style>
+            .myButton {
+                  background-color: #07AF50; /* Green */
+                  border: none;
+                  color: black;
+                  padding: 15px 32px;
+                  text-align: center;
+                  text-decoration: none;
+                  font-size: 16px;
+                  margin: 4px 2px;
+                  cursor: pointer;
+            }
+            .myButton:hover {
+                background-color:#5cbf2a;
+            }
+            </style>
+        </div>
+        <hr>
+        <p>
+            Razem do zapłaty: <strong>{{ OrderSum }}</strong>
+        </p>
+        <hr>
+        <p>
+            <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
+            <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
+                   hidden readonly form="formOrderLst">
+            <input type="text" name="NazwaPOST" value="{{ NazwaPOST }}"
+                   hidden readonly form="formOrderLst">
+            <!---->
+
+        {% for posim in positionMenu %}
+            <h3>{{ posim.pizzaSize }}</h3>
+            {{ posim.price }}
+            {{ posim.pizza_id }}
+            <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }} size = "2" maxlength = "2" form="formOrderLst">
+            <br>
+            {{ posim.pizzeria_id }}
+        {% endfor %}
+
+        </p>
+    </form>
+
+
+{% endblock content %}
+
+

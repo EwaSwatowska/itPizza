@@ -1,0 +1,74 @@
+{% extends "Home/base.html" %}
+{% block content %}
+{% load static %}
+
+<h1> Próbny formularz wyszukiwania</h1>
+
+    <form action="/SelectPizzeria/" method = "POST" id="formChoicePizz">
+        {% csrf_token %}
+
+        <div class="fieldWrapper">
+            <label for="{{ form.cfPizzeria.id_for_label }}">Wybierz pizzerię: </label>
+            {{ form.cfPizzeria }}
+        </div>
+
+        <br>
+        <div style = "max-width:470px;">
+        <center>
+           <button style = "border:0px; background-color:#4285F4; margin-top:8%;
+              height:35px; width:80%;margin-left:19%;" type = "submit"
+              value = "Szukaj" >
+              <strong>Szukaj</strong>
+           </button>
+        </center>
+        </div>
+    </form>
+
+    <br>
+    <hr>
+
+{% if IdPizzPOST != 'xx' and IdPizzPOST != '0' %}
+    <form action="/OrderList/" method = "POST" id="formToOrder">
+        {% csrf_token %}
+
+
+        <p>
+            Menu w pizzerii: <strong>{{ NazwaPOST }} </strong>
+            <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
+            <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
+                   hidden readonly form="formToOrder">
+            <input type="text" name="NazwaPOST" value="{{ NazwaPOST }}"
+                   hidden readonly form="formToOrder">
+            <!---->
+             <div style = "max-width:470px;">
+                <center>
+                   <button style = "border:0px; background-color:#FF00F4; margin-top:0%;
+                      height:35px; width:80%;margin-left:19%;" type = "submit"
+                      value = "Przygotój zamówienie" form="formToOrder">
+                      <strong>Przygotuj zamówienie w {{ NazwaPOST }} </strong>
+                   </button>
+                </center>
+            </div>
+        </p>
+
+    </form>
+{% endif %}
+    <hr>
+    <br>
+
+
+<p>
+
+    {% for posim in positionMenu %}
+        <h3>{{ posim.pizzaSize }}</h3>
+        {{ posim.price }}
+        {{ posim.pizza_id }}
+        <br>
+        {{ posim.pizzeria_id }}
+    {% endfor %}
+
+</p>
+
+
+
+{% endblock content %}

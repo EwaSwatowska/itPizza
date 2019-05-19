@@ -1,0 +1,143 @@
+{% extends "Home/base.html" %}
+{% block content %}
+{% load static %}
+
+
+
+<h2>Dziś polecamy:</h2>
+<!--
+<div style="color:#FF00FF">
+<p>
+    <br>
+    {% for pizza in pizzas %}
+    <h2><a class="article-title" href="#">{{ pizza.name }}</a></h2>
+        <p>
+            <b>rozmiar: </b>  <i>{{ pizza.size }}</i>
+            <br>
+            <b>ceny:</b>  <i>{{ pizza.price }}</i>
+        </p>
+    {% endfor %}
+    <br>
+    <a href="http://127.0.0.1:8000">Powrót</a>
+</p>
+</div>
+-->
+
+<table border="5" height="300">
+
+    <form action="...">
+	    <input type="text" name="nazwa">
+    </form>
+
+    <button type="rodzaj">Ewa wymyśli co dalej...</button>
+    <br>
+    <br>
+
+
+    <form action="...">
+	    <input type="checkbox" name="skladnik" value="wartosc1">checkbox1
+        <input type="checkbox" name="skladnik" value="wartosc2">checkbox2
+    </form>
+    <br>
+    <form action="...">
+	    <input type="submit" value="Click here">
+    </form>
+    <br>
+    <br>
+    {% for pizza in pizzas %}
+
+
+        {% if pizza.name == "Capriciosa" or pizza.name == "Margharita" %}
+            {{ pizza.name }}
+
+
+
+            <tr>
+                <td rowspan="4" width="300"><img src="{% static pizza.picture %}" alt="co sie dzieje halo gdzie obrazek" width="350" height="300"></td>
+                <td BGCOLOR="yellow" align=center valign=middle colspan="4"> {{ pizza.name }}</td>
+            </tr>
+            <tr>
+                <td colspan="4">{{ pizza.ingredients }}</td>
+            </tr>
+            <tr align=center valign=middle>
+                <td width="100">small</td>
+                <td width="100">medium</td>
+                <td width="100">big</td>
+                <td width="100">xxl</td>
+            </tr>
+            <tr align=center valign=middle>
+                <td>{{ pizza.priceS }}</td>
+                <td>{{ pizza.priceM }}</td>
+                <td>{{ pizza.priceB }}</td>
+                <td>{{ pizza.priceXXL }}</td>
+            </tr>
+        {% endif %}
+    {% endfor %}
+</table>
+<!--
+<table border="5" height="300">
+    <tr>
+        <td rowspan="4" width="300"><img src="grafika/marg.png" alt="co sie dzieje halo gdzie obrazek"></td>
+        <td align=center valign=middle colspan="4">Salame</td>
+    </tr>
+    <tr>
+        <td colspan="4">cheese, salame</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td width="100">small</td>
+        <td width="100">medium</td>
+        <td width="100">big</td>
+        <td width="100">xxl</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td>18</td>
+        <td>22</td>
+        <td>26</td>
+        <td>36</td>
+    </tr>
+</table>
+<table border="5" height="300">
+    <tr>
+        <td rowspan="4" width="300"><img src="grafika/marg.png" alt="co sie dzieje halo gdzie obrazek"></td>
+        <td align=center valign=middle colspan="4">Capriciosa</td>
+    </tr>
+    <tr>
+        <td colspan="4">cheese, mushrooms, ham</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td width="100">small</td>
+        <td width="100">medium</td>
+        <td width="100">big</td>
+        <td width="100">xxl</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td>18</td>
+        <td>24</td>
+        <td>28</td>
+        <td>35</td>
+    </tr>
+</table>
+<table border="5" height="300">
+    <tr>
+        <td rowspan="4" width="300"><img src="grafika/marg.png" alt="co sie dzieje halo gdzie obrazek"></td>
+        <td align=center valign=middle colspan="4">Hawaii</td>
+    </tr>
+    <tr>
+        <td colspan="4">cheese, ham, pineapple</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td width="100">small</td>
+        <td width="100">medium</td>
+        <td width="100">big</td>
+        <td width="100">xxl</td>
+    </tr>
+    <tr align=center valign=middle>
+        <td>20</td>
+        <td>22</td>
+        <td>28</td>
+        <td>32</td>
+    </tr>
+</table>
+-->
+
+{% endblock content %}

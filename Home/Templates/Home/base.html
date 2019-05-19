@@ -1,0 +1,21 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    {% if title %}
+        <title>Portal itPizza - {{ title }}</title>
+    {% else %}
+        <title>Portal itPizza</title>
+    {% endif %}
+</head>
+<body bgcolor="#FF9900">
+
+    {% block content %}{% endblock %}
+
+    <br>
+    <a href="http://127.0.0.1:8000">[ itPizza ]</a>
+    <a href="http://127.0.0.1:8000/oProjekcie/">[ O projekcie ] </a>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+{% extends "Home/base.html" %}
+{% block content %}
+<h1>Wypełnij dane do przesłania zamówienia</h1>
+<hr>
+<h3>Dane do przesłania zamówienia</h3>
+<!-- ty wpisać FORM dla tabeli OrderData -->
+<hr>
+<h3>Zamówione pizze w pizzeri: <i>{{ NazwaPOST }}</i></h3>
+<p>
+    {% for posim in positionMenu %}
+        {% if posim.countTmp != 0 %}
+            <h3>{{ posim.pizzaSize }}</h3>
+            {{ posim.price }}
+            {{ posim.pizza_id }}
+            ilość: {{ posim.countTmp }}
+            <br>
+            {{ posim.pizzeria_id }}
+        {% endif %}
+    {% endfor %}
+</p>
+<u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+<br>
+<hr>
+<h3>Wprowadź dane osobowe i adres dowozu zamówienia</h3>
+
+<form action='.' method='POST'> {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Wyślij zamówienie">
+</form>
+{% endblock content %}
