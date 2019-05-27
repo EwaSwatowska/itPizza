@@ -11,4 +11,6 @@ urlpatterns = [
     path('SelectPizzeria/', views.SelectPizzeria, name='SelectPizzeria'),
     path('OrderList/', views.OrderList, name='OrderList'),
     path('OrderHead/', views.OrderHead, name='OrderHead'),
+    path('OrderPlaced/', views.OrderPlaced, name='OrderPlaced'),
+    path('CheckStatus/', views.CheckStatus, name='CheckStatus'),
 ]

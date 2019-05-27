@@ -1,9 +1,9 @@
 {% extends "Home/base.html" %}
 {% block content %}
-<h1>Wypełnij dane do przesłania zamówienia</h1>
-<hr>
-<h3>Dane do przesłania zamówienia</h3>
-<!-- ty wpisać FORM dla tabeli OrderData -->
+
+
+<u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+<br>
 <hr>
 <h3>Zamówione pizze w pizzeri: <i>{{ NazwaPOST }}</i></h3>
 <p>
@@ -18,13 +18,37 @@
         {% endif %}
     {% endfor %}
 </p>
-<u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
-<br>
+<hr>
+<h1>Wypełnij dane do przesłania zamówienia</h1>
+<h3>Dane do przesłania zamówienia</h3>
+<!-- ty wpisać FORM dla tabeli OrderData -->
+
 <hr>
 <h3>Wprowadź dane osobowe i adres dowozu zamówienia</h3>
 
-<form action='.' method='POST'> {% csrf_token %}
+<form action='/OrderPlaced/' method='POST'> {% csrf_token %}
+    <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
+            <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
+                   hidden readonly>
+            <input type="text" name="NazwaPOST" value="{{ NazwaPOST }}"
+                   hidden readonly>
+            <input type="text" name="OrderSum" value="{{ OrderSum }}"
+                   hidden readonly>
+            {% for posim in positionMenu %}
+                <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }}
+                       hidden readonly>
+            {% endfor %}
+    <!---->
     {{ form.as_p }}
     <input type="submit" value="Wyślij zamówienie">
 </form>
+<hr>
+<h3>Wybierz formę płatności:<h3>
+
+<label><input type="radio" name="food"> Gotówka </label>
+<label><input type="radio" name="food"> Karta płatnicza </label>
+<label><input type="radio" name="food"> PayU </label>
+
+<br><br>
+
 {% endblock content %}

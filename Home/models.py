@@ -40,12 +40,11 @@ class PositionInMenu(models.Model):
         on_delete=models.CASCADE,
     )
     countTmp = models.DecimalField(decimal_places=0, max_digits=4, default=0) # pole pomocnicze do obsłig OrderList
-
 # ----------------- Dane wprowadzone przez uzytkownika -----------------
 
 class OrderData(models.Model):
-    nameAndSurname = models.CharField(max_length=60)
-    street = models.CharField(max_length=40)
+    nameAndSurname  = models.CharField(max_length=60)
+    street          = models.CharField(max_length=40)
     streetNumber    = models.CharField(max_length=5)
     houseNumber     = models.CharField(max_length=5)
     email           = models.CharField(max_length=30)
@@ -53,21 +52,33 @@ class OrderData(models.Model):
     total           = models.DecimalField(decimal_places=2, max_digits=6, default = Decimal('0.00'))
     date            = models.DateTimeField(auto_now_add=True)
     # to musi byc pole wyliczalne
-    pizzeria = models.ForeignKey(
+    pizzeria        = models.ForeignKey(
         'Pizzeria',
         on_delete=models.CASCADE,
     )
     #to potrzebne do sprawdzania zamówień danej pizzerii
+    orderNumber     = models.BigIntegerField(default=0)
+    ORDER_STATUS = (
+        ('1', 'Zamówienie przyjęte'),
+        ('2', 'Zamówienie w trakcie przygotowania'),
+        ('3', 'Zamówienie jest pakowane'),
+        ('4', 'Zamówienie w dowozie'),
+        ('5', 'Zamówienie zakończone'),
+    )
+    # w pizza_id jest nazwa pizzy, składniki
+    orderStatus = models.CharField(max_length=1, choices=ORDER_STATUS, default='1')
 
 
 # ------------------- Dane zamowienia - jakie produkty i dla kogo -------------------
 
 class OrderPosition(models.Model):
-    positionInMenu_id = models.ForeignKey(
-        'Pizza',
-        on_delete=models.CASCADE,
-    )
     order_id = models.ForeignKey(
         'OrderData',
         on_delete=models.CASCADE,
     )
+    positionInMenu_id = models.ForeignKey(
+        'PositionInMenu',
+        on_delete=models.CASCADE,
+    )
+    numberOfPIM = models.IntegerField(default=0) #liczba danych pozycji w menu, tych zamowionych
+

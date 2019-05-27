@@ -60,7 +60,7 @@
 <p>
 
     {% for posim in positionMenu %}
-        <h3>{{ posim.pizzaSize }}</h3>
+        <h3>{{ posim.get_pizzaSize_display }}</h3>
         {{ posim.price }}
         {{ posim.pizza_id }}
         <br>

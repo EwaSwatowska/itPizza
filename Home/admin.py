@@ -15,14 +15,16 @@ class PositionInMenuAdmin(admin.ModelAdmin):
     list_filter = ('pizza_id', 'pizzeria_id')
 
 class OrderDataAdmin(admin.ModelAdmin):
-    list_display = ('nameAndSurname', 'street', 'streetNumber', 'houseNumber', 'email', 'phoneNumber', 'total', 'date', 'pizzeria')
+    list_display = ('nameAndSurname', 'street', 'streetNumber', 'houseNumber', 'email', 'phoneNumber', 'total', 'date', 'pizzeria', 'orderNumber', 'orderStatus')
 
+class OrderPositionAdmin(admin.ModelAdmin):
+    list_display = ('order_id', 'positionInMenu_id', 'numberOfPIM')
 
 admin.site.register(Pizza, PizzaAdmin)
 admin.site.register(Pizzeria)
 admin.site.register(PositionInMenu, PositionInMenuAdmin)
 admin.site.register(OrderData, OrderDataAdmin)
-admin.site.register(OrderPosition)
+admin.site.register(OrderPosition, OrderPositionAdmin)
 
 
 
