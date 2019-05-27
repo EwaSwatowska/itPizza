@@ -1,0 +1,52 @@
+{% extends "Home/base.html" %}
+{% block content %}
+
+<h3>podaj numer</h3>
+
+<form action="/CheckStatus/" method = "POST">
+    {% csrf_token %}
+
+    <input type="text" name="orderNumber" value="{{ orderNumber }}">
+
+    <br>
+    <div style = "max-width:470px;">
+    <center>
+       <button style = "border:0px; background-color:#4285F4; margin-top:8%;
+          height:35px; width:80%;margin-left:19%;" type = "submit"
+          value = "sprawdz" >
+          <strong>Sprawdź</strong>
+       </button>
+    </center>
+    </div>
+</form>
+
+{% if orderData is not null %}
+
+    <h2> Zamówienie realizuje pizzeria <i>{{ orderData.pizzeria.name }}</i></h2>
+    <u><h4>Wartość zamówienia: <i>{{ orderData.total }}</i> </h4></u>
+    <br>
+    <h4> Zamówiłeś następujące pizze: </h4>
+    <p>
+        {% for op in orderPosition %}
+            <h3>{{ op.positionInMenu_id.get_pizzaSize_display }}</h3>
+            {{ op.positionInMenu_id.pizza_id }}
+            {{ op.positionInMenu_id.price }}
+            ilość: {{ op.numberOfPIM }}
+            <br>
+        {% endfor %}
+    </p>
+    <hr>
+    <h1>Zamówienie zostanie wysłane na podany adres</h1>
+
+    <br><br><br>
+    <h1> {{ orderData.nameAndSurname }} </h1>
+    <br>
+
+    <h1> To jest numer zamówienia: {{orderData.orderNumber }}</h1>
+    <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
+    <h2>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h2>
+
+{% elif orderNumber is not null and orderNumber != '' %}
+    <h1> Zamówienie o numerze {{ orderNumber }} nie istnieje. </h1>
+{% endif %}
+{% endblock content %}
