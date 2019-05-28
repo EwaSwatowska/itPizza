@@ -48,11 +48,13 @@
     <br>
 
 <p>
-
     {% for posim in positionMenu %}
         <h3>{{ posim.get_pizzaSize_display }}</h3>
         {{ posim.price }}
-        {{ posim.pizza_id }}
+        {% if posim.Pizza_FK.looseOfPrice != 0 %}
+            ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
+        {% endif %}
+        {{ posim.Pizza_FK}}
         <br>
         {{ posim.pizzeria_id }}
     {% endfor %}

@@ -6,7 +6,7 @@ from .models import Pizza
 from .models import Pizzeria
 from .models import PositionInMenu
 from .forms import SelectPizzeriaForm, OrderHeadForm
-from .models import OrderData, OrderPosition
+from .models import OrderData, OrderPosition, Coupon
 from random import randint
 
 
@@ -67,14 +67,24 @@ def OrderList(request):
         for obj in pim:
             if request.POST.get('PosListPizz_' + '%.0f' % obj.id):
                 obj.countTmp = Decimal(request.POST.get('PosListPizz_' + '%.0f' % obj.id))
-                OrderSum += (obj.countTmp * obj.price)
+                OrderSum += (obj.countTmp * (obj.price+obj.Pizza_FK.looseOfPrice))
             else:
                 obj.countTmp = 0
+
         context['positionMenu'] = pim
         context['OrderSum'] = OrderSum
+        pcouponCode = request.POST.get('couponCode')
+        print(pcouponCode)
+        if pcouponCode is not None:
+            context['couponCode'] = pcouponCode  # jako value od tego inputa
+        coupon_obj = Coupon.objects.filter(code=pcouponCode).first()
+        context['coupon_obj'] = coupon_obj
+        if coupon_obj is not None:
+            OrderSumDiscount = OrderSum*(1-Decimal(coupon_obj.discount)/Decimal('100.00'))
+            context['OrderSumDiscount']=OrderSumDiscount
+
     else:
         print("!!!!!!! GET" *5)
-        #form = SelectPizzeriaForm()
 
     return render(request, 'Home/OrderList.html', context)
 
@@ -199,18 +209,14 @@ def CheckStatus(request):
         if number:
             print(number)
             piod = OrderData.objects.filter(orderNumber = number).first() #position in OrderData
-            piod = podlicz(piod) #obliczony total z funkcji podlicz
             print(piod)
             if piod is not None:
+                piod = podlicz(piod)  # obliczony total z funkcji podlicz
                 context['orderData'] = piod
                 piop = OrderPosition.objects.filter(order_id = piod) #position in OrderPosition
                 context['orderPosition'] = piop
 
     return render(request, 'Home/CheckStatus.html', context)
-
-
-
-
 
 
 def oProjekcie(request):
@@ -271,5 +277,5 @@ def podlicz(obj):
     piop = OrderPosition.objects.filter(order_id=obj)
     obj.total = 0
     for piop_obj in piop:
-        obj.total += piop_obj.numberOfPIM*piop_obj.positionInMenu_id.price
+        obj.total += piop_obj.numberOfPIM * (piop_obj.positionInMenu_id.price + piop_obj.positionInMenu_id.Pizza_FK.looseOfPrice)
     return obj

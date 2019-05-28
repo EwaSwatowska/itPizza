@@ -19,6 +19,7 @@ class SelectPizzeriaForm(forms.Form):
         self.fields['cfPizzeria'] = forms.ChoiceField(
             choices=get_Pizzeries())
 
+
 class OrderHeadForm(forms.Form):
     nameAndSurname = forms.CharField(max_length=60, label = 'Imię i nazwisko')
     street = forms.CharField(max_length=40, label = 'Ulica')

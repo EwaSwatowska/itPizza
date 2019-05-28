@@ -11,7 +11,10 @@
         {% if posim.countTmp != 0 %}
             <h3>{{ posim.pizzaSize }}</h3>
             {{ posim.price }}
-            {{ posim.pizza_id }}
+            {% if posim.Pizza_FK.looseOfPrice != 0 %}
+                ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
+            {% endif %}
+            {{ posim.Pizza_FK }}
             ilość: {{ posim.countTmp }}
             <br>
             {{ posim.pizzeria_id }}
@@ -42,13 +45,6 @@
     {{ form.as_p }}
     <input type="submit" value="Wyślij zamówienie">
 </form>
-<hr>
-<h3>Wybierz formę płatności:<h3>
 
-<label><input type="radio" name="food"> Gotówka </label>
-<label><input type="radio" name="food"> Karta płatnicza </label>
-<label><input type="radio" name="food"> PayU </label>
-
-<br><br>
 
 {% endblock content %}

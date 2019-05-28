@@ -28,11 +28,19 @@
     <form action="/OrderList/" method="POST" id="formOrderLst">
         {% csrf_token %}
 
-        <div style = "max-width:300px;">
+        <div style = "max-width:500px;">
            <button id = "btnClc" class="myButton" type = "submit"
               value = "Oblicz" form="formOrderLst">
               <strong>Oblicz</strong>
            </button>
+            <br>
+            <label>Wprowadź kod rabatowy:
+            <input type="text" name="couponCode" value="{{ couponCode }}"></label>
+            {% if coupon_obj is None and couponCode != '' %}
+                <br>
+                <small>Wprowadzony kod jest niepoprawny lub limit rabatów dla niego jest już wykorzystany.</small>
+                <br>
+            {% endif %}
             {% if OrderSum != 0 %}
                <button id = "btnPlcOrder" class="myButton" type = "submit"
                   value = "Złóż zamówienie" form="formOrderLstToHead">
@@ -58,7 +66,18 @@
         </div>
         <hr>
         <p>
-            Razem do zapłaty: <strong>{{ OrderSum }}</strong>
+            Kwota przed rabatem: <strong> {{OrderSum}} </strong>
+            <br>
+            {% if coupon_obj is not None %}
+                Rabat: <strong> {{coupon_obj.discount }}% </strong>
+                <br>
+                Razem do zapłaty: <strong>{{ OrderSumDiscount }}</strong>
+            {% else %}
+                Rabat: <strong> brak </strong>
+                <br>
+                Razem do zapłaty: <strong> {{OrderSum}} </strong>
+            {% endif %}
+
         </p>
         <hr>
         <p>
@@ -72,14 +91,20 @@
         {% for posim in positionMenu %}
             <h3>{{ posim.pizzaSize }}</h3>
             {{ posim.price }}
-            {{ posim.pizza_id }}
+            {% if posim.Pizza_FK.looseOfPrice != 0 %}
+                ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
+            {% endif %}
+            {{ posim.Pizza_FK }}
             <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }} size = "2" maxlength = "2" form="formOrderLst">
             <br>
             {{ posim.pizzeria_id }}
         {% endfor %}
 
         </p>
+
     </form>
+
+
 
 
 {% endblock content %}
