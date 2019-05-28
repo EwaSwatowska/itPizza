@@ -8,14 +8,48 @@
     {% else %}
         <title>Portal itPizza</title>
     {% endif %}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 </head>
-<body bgcolor="#FF9900">
+<body>
+<div class="jumbotron text-center" style="margin-bottom:0">
+    <h2>itPizza</h2>
+    <p>Serwis do zamawiania pizzy online</p>
+</div>
+<nav class="navbar navbar-expand-md navbar-dark bg-danger">
+    <a class="navbar-brand">
+        <img src="{% static 'grafika/pizza.png' %}" alt="logo" style="width:40px;">
+    </a>
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="http://127.0.0.1:8000">Strona główna</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/oProjekcie/">O projekcie</a>
+        </li>
+    </ul>
+</nav>
 
-    {% block content %}{% endblock %}
+<div class="container-fluid base-container">
+    <div class="row">
+        <div class="col-md-2" style="background-color: gold">
+        </div>
 
-    <br>
-    <a href="http://127.0.0.1:8000">[ itPizza ]</a>
-    <a href="http://127.0.0.1:8000/oProjekcie/">[ O projekcie ] </a>
+        <div class="col-md-8">
+
+        {% block content %}
+        {% endblock %}
+
+        </div>
+
+        <div class="col-md-2" style="background-color: gold">
+        </div>
+    </div>
+</div>
+
+<div class="jumbotron text-center">
+    <h6>Projekt z MO</h6>
+</div>
 
 </body>
 </html>

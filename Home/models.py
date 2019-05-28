@@ -80,5 +80,5 @@ class OrderPosition(models.Model):
         'PositionInMenu',
         on_delete=models.CASCADE,
     )
-    numberOfPIM = models.IntegerField(default=0) #liczba danych pozycji w menu, tych zamowionych
+    numberOfPIM = models.IntegerField(default=0) #liczba (position in menu) danych pozycji w menu, tych zamowionych
 
