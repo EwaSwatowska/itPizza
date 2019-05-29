@@ -77,12 +77,12 @@ class OrderData(models.Model):
     # numberOfSauces  = models.IntegerField(default=0)
     #to potrzebne do sprawdzania zamówień danej pizzerii
     orderNumber     = models.BigIntegerField(default=0)
-    # PAYMETHODS = (
-    #     ('1', 'Gotówka (przy odbiorze)'),
-    #     ('2', 'Karta płatnicza'),
-    #     ('3', 'Przelew'),
-    # )
-    # pay             = models.CharField(max_length=1, choices=PAYMETHODS, default='1')
+    PAYMETHODS = (
+        ('1', 'Gotówka (przy odbiorze)'),
+        ('2', 'Karta płatnicza'),
+        ('3', 'Przelew'),
+    )
+    pay             = models.CharField(max_length=1, choices=PAYMETHODS, default='1')
     Coupon_FK = models.ForeignKey(
         'Coupon',
         blank=True, null=True,
@@ -97,6 +97,7 @@ class OrderData(models.Model):
     )
     # w Pizza_FK jest nazwa pizzy, składniki
     orderStatus = models.CharField(max_length=1, choices=ORDER_STATUS, default='1')
+
 
 
 # ------------------- Dane zamowienia - jakie produkty i dla kogo -------------------
@@ -116,4 +117,7 @@ class Coupon(models.Model):
     code = models.CharField(max_length=5)
     discount = models.IntegerField(default=5)
     numberOfCoupons = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.code
 

@@ -15,7 +15,7 @@ class PositionInMenuAdmin(admin.ModelAdmin):
     list_filter = ('Pizza_FK', 'pizzeria_id')
 
 class OrderDataAdmin(admin.ModelAdmin):
-    list_display = ('nameAndSurname', 'street', 'streetNumber', 'houseNumber', 'email', 'phoneNumber', 'total', 'date', 'pizzeria', 'orderNumber', 'orderStatus')
+    list_display = ('nameAndSurname', 'street', 'streetNumber', 'houseNumber', 'email', 'phoneNumber', 'total', 'date', 'pizzeria', 'orderNumber', 'Coupon_FK', 'pay', 'orderStatus')
 
 class OrderPositionAdmin(admin.ModelAdmin):
     list_display = ('order_id', 'positionInMenu_id', 'numberOfPIM')

@@ -3,14 +3,18 @@
 <h1> Serdecznie dziękuję za złożenie zamówienia. </h1>
 <br>
 <h2> Zamówienie zrealizuje pizzeria <i>{{ NazwaPOST }}</i></h2>
-<u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+{% if OrderSum > OrderSumDiscount and OrderSumDiscount != '0.00' %}
+    <u><h4>Wartość zamówienia: <i>{{ OrderSumDiscount }}</i> </h4></u>
+{% else %}
+    <u><h4>Wartość zamówienia : <i>{{ OrderSum }}</i> </h4></u>
+{% endif %}
 <br>
 <h4> Zamówiłeś następujące pizze: </h4>
 <p>
     {% for posim in positionMenu %}
         {% if posim.countTmp != 0 %}
             <h3>{{ posim.pizzaSize }}</h3>
-            {{ posim.pizza_id }}
+            {{ posim.Pizza_FK }}
             {{ posim.price }}
             ilość: {{ posim.countTmp }}
             <br>
@@ -23,6 +27,8 @@
 <br><br><br>
 <h1> {{ orderData.nameAndSurname }} </h1>
 <br>
+<h1>Forma płatności:</h1>
+<h4> {{ orderData.get_pay_display }}</h4>
 
 <h1> To jest numer zamówienia: {{orderData.orderNumber }}</h1>
 <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>

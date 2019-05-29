@@ -21,6 +21,10 @@
             <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }}
                    hidden readonly form="formOrderLstToHead">
         {% endfor %}
+        <input type="text" name="couponCode" value="{{ couponCode }}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="OrderSumDiscount" value="{{OrderSumDiscount}}"
+               hidden readonly form="formOrderLstToHead">
         <!---->
 
     </form>

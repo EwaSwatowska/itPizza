@@ -29,7 +29,7 @@
     <p>
         {% for op in orderPosition %}
             <h3>{{ op.positionInMenu_id.get_pizzaSize_display }}</h3>
-            {{ op.positionInMenu_id.pizza_id }}
+            {{ op.positionInMenu_id.Pizza_FK }}
             {{ op.positionInMenu_id.price }}
             ilość: {{ op.numberOfPIM }}
             <br>

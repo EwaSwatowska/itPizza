@@ -48,10 +48,11 @@ def SelectPizzeria(request):
     return render(request, 'Home/SelectPizzeria.html', context)
 
 def OrderList(request):
-    print(request.method)
+    # print(request.method)
     context = {
         'NazwaPOST': 'dokonaj wyboru pizzeri (powyżej)',
-        'IdPizzPOST': "xx"
+        'IdPizzPOST': 'xx',
+        'couponCode': ''
     }
     if request.method == "POST":
         print ("*"*25)
@@ -73,18 +74,19 @@ def OrderList(request):
 
         context['positionMenu'] = pim
         context['OrderSum'] = OrderSum
+        context['coupon_obj'] = None
+        OrderSumDiscount = Decimal('0.00')
         pcouponCode = request.POST.get('couponCode')
-        print(pcouponCode)
-        if pcouponCode is not None:
+        if pcouponCode is not None :
             context['couponCode'] = pcouponCode  # jako value od tego inputa
-        coupon_obj = Coupon.objects.filter(code=pcouponCode).first()
-        context['coupon_obj'] = coupon_obj
-        if coupon_obj is not None:
-            OrderSumDiscount = OrderSum*(1-Decimal(coupon_obj.discount)/Decimal('100.00'))
-            context['OrderSumDiscount']=OrderSumDiscount
-
-    else:
-        print("!!!!!!! GET" *5)
+            coupon_obj = Coupon.objects.filter(code=pcouponCode).first()
+            if coupon_obj is not None:
+                numOfCoupDone = OrderData.objects.filter(Coupon_FK=coupon_obj).count()
+                print(numOfCoupDone)
+                if numOfCoupDone < coupon_obj.numberOfCoupons:
+                    OrderSumDiscount = OrderSum*(1-Decimal(coupon_obj.discount)/Decimal('100.00'))
+                    context['coupon_obj'] = coupon_obj
+        context['OrderSumDiscount'] = OrderSumDiscount
 
     return render(request, 'Home/OrderList.html', context)
 
@@ -101,6 +103,7 @@ def OrderHead(request):
     if request.method == "POST":
         my_form = OrderHeadForm(request.POST)
         context['form'] = my_form
+        print(my_form)
         print ("*"*25)
         print(request.POST)
         print ("*" * 25)
@@ -109,6 +112,8 @@ def OrderHead(request):
         context['IdPizzPOST'] = request.POST.get('IdPizzPOST')
         context['NazwaPOST'] = request.POST.get('NazwaPOST')
         context['OrderSum'] = request.POST.get('OrderSum')
+        context['couponCode'] = request.POST.get('couponCode')
+        context['OrderSumDiscount'] = request.POST.get('OrderSumDiscount')
         pim = PositionInMenu.objects.filter(pizzeria_id=idPizr)
         for obj in pim:
            if request.POST.get('PosListPizz_' + '%.0f' % obj.id):
@@ -134,7 +139,13 @@ def OrderPlaced(request):
         # post.total = request.POST.get('OrderSum')
         # post.pizzeria = request.POST.get('IdPizzPOST')
         # post.save()
-        ptotal=request.POST.get('OrderSum')
+
+        ptotalbefore=request.POST.get('OrderSum')
+        ptotaldiscount=request.POST.get('OrderSumDiscount')
+        if(ptotaldiscount != '0.00'):
+            ptotal = ptotaldiscount
+        else:
+            ptotal = ptotalbefore
 
         idPizr = request.POST.get('IdPizzPOST')
         ppizzeria = Pizzeria.objects.get(id=idPizr)
@@ -151,6 +162,13 @@ def OrderPlaced(request):
             tmpNumber = OrderData.objects.filter(orderNumber=porderNumber).first()
             if tmpNumber is None:
                 break
+        pcouponCode=request.POST.get('couponCode')
+        print(pcouponCode)
+        pcoupon = Coupon.objects.filter(code = pcouponCode).first()
+        print(pcoupon)
+        ppay = request.POST.get('pay')
+        print("**************************")
+        print(ppay)
         order_obj = OrderData(
             nameAndSurname=pnameAndSurname,
             street = pstreet,
@@ -160,7 +178,9 @@ def OrderPlaced(request):
             phoneNumber = pphoneNumber,
             total = ptotal,
             pizzeria = ppizzeria,
-            orderNumber = porderNumber
+            orderNumber = porderNumber,
+            pay = ppay,
+            Coupon_FK = pcoupon
         )
         order_obj.save()
 
@@ -189,6 +209,7 @@ def OrderPlaced(request):
         context['IdPizzPOST'] = request.POST.get('IdPizzPOST')
         context['NazwaPOST'] = request.POST.get('NazwaPOST')
         context['OrderSum'] = request.POST.get('OrderSum')
+        context['OrderSumDiscount'] = request.POST.get('OrderSumDiscount')
         pim = PositionInMenu.objects.filter(pizzeria_id=idPizr)
         for obj in pim:
             if request.POST.get('PosListPizz_' + '%.0f' % obj.id):
