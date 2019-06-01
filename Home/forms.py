@@ -1,6 +1,5 @@
 from django import forms
-from .models import Pizzeria
-
+from .models import Pizzeria, OrderData
 
 def get_Pizzeries():
     # you place some logic here
@@ -19,6 +18,11 @@ class SelectPizzeriaForm(forms.Form):
         self.fields['cfPizzeria'] = forms.ChoiceField(
             choices=get_Pizzeries())
 
+PAYMETHODS = [
+        ('1', 'Gotówka (przy odbiorze)'),
+        ('2', 'Karta płatnicza'),
+        ('3', 'Przelew'),
+    ]
 
 class OrderHeadForm(forms.Form):
     nameAndSurname = forms.CharField(max_length=60, label = 'Imię i nazwisko')
@@ -27,8 +31,7 @@ class OrderHeadForm(forms.Form):
     houseNumber = forms.CharField(max_length=5, label = 'Numer lokalu')
     email = forms.CharField(max_length=30, label = 'Adres email')
     phoneNumber = forms.DecimalField(decimal_places=0, max_digits=9, label = 'Numer telefonu')
-
-
+    pay = forms.CharField(label='Wybierz formę płatności', widget=forms.RadioSelect(choices=PAYMETHODS))
 
 # Opis
 # https://developer.mozilla.org/en-US/docs/Learn/Server-side/Django/Forms

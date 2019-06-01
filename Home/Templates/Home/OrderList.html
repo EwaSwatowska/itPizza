@@ -21,6 +21,14 @@
             <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }}
                    hidden readonly form="formOrderLstToHead">
         {% endfor %}
+        <input type="text" name="couponCode" value="{{ couponCode }}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="OrderSumDiscount" value="{{OrderSumDiscount}}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="drink" value="{{drink}}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="numberOfDrinks" value="{{numberOfDrinks}}"
+               hidden readonly form="formOrderLstToHead">
         <!---->
 
     </form>
@@ -80,6 +88,31 @@
 
         </p>
         <hr>
+            Wybierz napój (koszt każdego napoju to 3zł):
+            <br>
+            <label for="id_drink_0">
+                <input type="radio" name="drink" value="1" required id="id_drink_0" {% if drink == '1' %} checked {% endif %}>
+                Pepsi</label>
+            <label for="id_drink_1">
+                <input type="radio" name="drink" value="2" required id="id_drink_1" {% if drink == '2' %} checked {% endif %}>
+                Coca Cola</label>
+            <label for="id_drink_2">
+                <input type="radio" name="drink" value="3" required id="id_drink_2" {% if drink == '3' %} checked {% endif %}>
+                Sprite</label>
+            <label for="id_drink_3">
+                <input type="radio" name="drink" value="4" required id="id_drink_3" {% if drink == '4' %} checked {% endif %}>
+                Sok pomarańczowy</label>
+            <label for="id_drink_4">
+                <input type="radio" name="drink" value="5" required id="id_drink_4" {% if drink == '5' %} checked {% endif %}>
+                Woda</label>
+             <label for="id_drink_5">
+                <input type="radio" name="drink" value="6" required id="id_drink_5" {% if drink == '6' %} checked {% endif %}>
+                Bez napoju</label>
+        <br>
+            Wprowadź ilość:
+            <input type="text" name="numberOfDrinks" value="{{numberOfDrinks}}" size="1" maxlength="1" form="formOrderLst">
+
+        <hr>
         <p>
             <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
             <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
@@ -100,9 +133,43 @@
             {{ posim.pizzeria_id }}
         {% endfor %}
 
+
+
         </p>
 
     </form>
+
+
+
+
+<table border="5" height="300">
+
+
+    <br>
+    <br>
+    {% for pizza in pizzas %}
+
+
+            {{ pizza.name }}
+
+
+            <tr>
+                <td colspan="4">{{ pizza.ingredients }}</td>
+            </tr>
+            <tr align=center valign=middle>
+                <td width="100">small</td>
+                <td width="100">medium</td>
+                <td width="100">big</td>
+                <td width="100">xxl</td>
+            </tr>
+            <tr align=center valign=middle>
+                <td>{{ pizza.priceS }}</td>
+                <td>{{ pizza.priceM }}</td>
+                <td>{{ pizza.priceB }}</td>
+                <td>{{ pizza.priceXXL }}</td>
+            </tr>
+    {% endfor %}
+</table>
 
 
 

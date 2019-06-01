@@ -1,12 +1,16 @@
 {% extends "Home/base.html" %}
 {% block content %}
 
-
-<u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+{% if OrderSum > OrderSumDiscount and OrderSumDiscount != '0.00' %}
+    <u><h4>Wartość zamówienia: <i>{{ OrderSumDiscount }}</i> </h4></u>
+{% else %}
+    <u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+{% endif %}
 <br>
 <hr>
-<h3>Zamówione pizze w pizzeri: <i>{{ NazwaPOST }}</i></h3>
+<h3>Zamówienie w pizzeri: <i>{{ NazwaPOST }}</i></h3>
 <p>
+    Wybrane pizze:
     {% for posim in positionMenu %}
         {% if posim.countTmp != 0 %}
             <h3>{{ posim.pizzaSize }}</h3>
@@ -17,9 +21,9 @@
             {{ posim.Pizza_FK }}
             ilość: {{ posim.countTmp }}
             <br>
-            {{ posim.pizzeria_id }}
         {% endif %}
     {% endfor %}
+    Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
 </p>
 <hr>
 <h1>Wypełnij dane do przesłania zamówienia</h1>
@@ -41,8 +45,18 @@
                 <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }}
                        hidden readonly>
             {% endfor %}
+            <input type="text" name="couponCode" value="{{ couponCode }}"
+                   hidden readonly>
+            <input type="text" name="OrderSumDiscount" value="{{OrderSumDiscount}}"
+                   hidden readonly>
+            <input type="text" name="drink" value="{{orderdata_obj.drink}}"
+                   hidden readonly>
+            <input type="text" name="numberOfDrinks" value="{{orderdata_obj.numberOfDrinks}}"
+                   hidden readonly>
     <!---->
-    {{ form.as_p }}
+    <!--<label for="{{ form.nameAndSurname.id_for_label }}">Imię i nazwisko </label>-->
+    <!--{{ form.nameAndSurname }}-->
+    {{form.as_p}}
     <input type="submit" value="Wyślij zamówienie">
 </form>
 

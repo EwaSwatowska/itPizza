@@ -29,11 +29,12 @@
     <p>
         {% for op in orderPosition %}
             <h3>{{ op.positionInMenu_id.get_pizzaSize_display }}</h3>
-            {{ op.positionInMenu_id.pizza_id }}
+            {{ op.positionInMenu_id.Pizza_FK }}
             {{ op.positionInMenu_id.price }}
             ilość: {{ op.numberOfPIM }}
             <br>
         {% endfor %}
+        Zamówione przez Ciebie napoje to: {{ orderData.get_drink_display }} w ilości: {{ orderData.numberOfDrinks }}
     </p>
     <hr>
     <h1>Zamówienie zostanie wysłane na podany adres</h1>
