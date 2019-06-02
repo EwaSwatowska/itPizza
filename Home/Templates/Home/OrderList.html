@@ -29,6 +29,10 @@
                hidden readonly form="formOrderLstToHead">
         <input type="text" name="numberOfDrinks" value="{{numberOfDrinks}}"
                hidden readonly form="formOrderLstToHead">
+        <input type="text" name="sauce" value="{{sauce}}"
+               hidden readonly form="formOrderLstToHead">
+        <input type="text" name="numberOfSauces" value="{{numberOfSauces}}"
+               hidden readonly form="formOrderLstToHead">
         <!---->
 
     </form>
@@ -113,11 +117,38 @@
             <input type="text" name="numberOfDrinks" value="{{numberOfDrinks}}" size="1" maxlength="1" form="formOrderLst">
 
         <hr>
+        Wybierz sos (koszt każdego napoju to 2zł):
+            <br>
+            <label for="id_sauce_0">
+                <input type="radio" name="sauce" value="1" required id="id_sauce_0" {% if sauce == '1' %} checked {% endif %}>
+                Sos pomidorowy</label>
+            <label for="id_sauce_1">
+                <input type="radio" name="sauce" value="2" required id="id_sauce_1" {% if sauce == '2' %} checked {% endif %}>
+                Sos czosnkowy</label>
+            <label for="id_sauce_2">
+                <input type="radio" name="sauce" value="3" required id="id_sauce_2" {% if sauce == '3' %} checked {% endif %}>
+                Sos BBQ</label>
+            <label for="id_sauce_3">
+                <input type="radio" name="sauce" value="4" required id="id_sauce_3" {% if sauce == '4' %} checked {% endif %}>
+                Sos orientalny</label>
+            <label for="id_sauce_4">
+                <input type="radio" name="sauce" value="5" required id="id_sauce_4" {% if sauce == '5' %} checked {% endif %}>
+                Sos tysiąca wysp</label>
+             <label for="id_sauce_5">
+                <input type="radio" name="sauce" value="6" required id="id_sauce_5" {% if sauce == '6' %} checked {% endif %}>
+                Bez sosu</label>
+        <br>
+            Wprowadź ilość:
+            <input type="text" name="numberOfSauces" value="{{numberOfSauces}}" size="1" maxlength="1" form="formOrderLst">
+
+        <hr>
         <p>
             <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
             <input type="text" name="IdPizzPOST" value="{{ IdPizzPOST }}"
                    hidden readonly form="formOrderLst">
             <input type="text" name="NazwaPOST" value="{{ NazwaPOST }}"
+                   hidden readonly form="formOrderLst">
+            <input type="text" name="listOfPizzas" value="{{ listOfPizzas }}"
                    hidden readonly form="formOrderLst">
             <!---->
 
@@ -147,12 +178,11 @@
 
     <br>
     <br>
-    {% for pizza in pizzas %}
-
-
-            {{ pizza.name }}
-
-
+    {% for pizza in pizzaTable  %}
+        {% if pizza in listOfPizzas %}
+            <tr>
+                <td colspan="4">{{pizza.name}}</td>
+            </tr>
             <tr>
                 <td colspan="4">{{ pizza.ingredients }}</td>
             </tr>
@@ -163,11 +193,17 @@
                 <td width="100">xxl</td>
             </tr>
             <tr align=center valign=middle>
-                <td>{{ pizza.priceS }}</td>
-                <td>{{ pizza.priceM }}</td>
-                <td>{{ pizza.priceB }}</td>
-                <td>{{ pizza.priceXXL }}</td>
+                {% for posim in positionMenu %}
+                    {% if posim.Pizza_FK == pizza %}
+                        {% if posim.pizzaSize == 'S' %}<td>S</td>
+                            {% elif posim.pizzaSize == 'M' %}<td>M</td>
+                                {% elif posim.pizzaSize == 'L' %}<td>L</td>
+                                    {% elif posim.pizzaSize == 'X' %}<td>XXL</td>
+                        {% endif %}
+                    {% endif %}
+                {% endfor %}
             </tr>
+        {% endif %}
     {% endfor %}
 </table>
 

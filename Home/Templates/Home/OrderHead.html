@@ -24,6 +24,7 @@
         {% endif %}
     {% endfor %}
     Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
+    Zamówione przez Ciebie sosy to: {{ orderdata_obj.get_sauce_display }} w ilości: {{orderdata_obj.numberOfSauces }}
 </p>
 <hr>
 <h1>Wypełnij dane do przesłania zamówienia</h1>
@@ -52,6 +53,10 @@
             <input type="text" name="drink" value="{{orderdata_obj.drink}}"
                    hidden readonly>
             <input type="text" name="numberOfDrinks" value="{{orderdata_obj.numberOfDrinks}}"
+                   hidden readonly>
+            <input type="text" name="sauce" value="{{orderdata_obj.sauce}}"
+                   hidden readonly>
+            <input type="text" name="numberOfSauces" value="{{orderdata_obj.numberOfSauces}}"
                    hidden readonly>
     <!---->
     <!--<label for="{{ form.nameAndSurname.id_for_label }}">Imię i nazwisko </label>-->

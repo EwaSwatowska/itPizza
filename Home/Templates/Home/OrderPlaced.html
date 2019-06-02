@@ -21,6 +21,7 @@
         {% endif %}
     {% endfor %}
     Zamówione przez Ciebie napoje to: {{ orderData.get_drink_display }} w ilości: {{ orderData.numberOfDrinks }}
+    Zamówione przez Ciebie sosy to: {{ orderData.get_sauce_display }} w ilości: {{ orderData.numberOfSauces }}
 </p>
 <hr>
 <h1>Zamówienie zostanie wysłane na podany adres</h1>
@@ -33,7 +34,7 @@
 
 <h1> To jest numer zamówienia: {{orderData.orderNumber }}</h1>
 <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
-<h2>To jest status zamówienia: {{orderData.orderStatus }}</h2>
+<h2>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h2>
 
 
 

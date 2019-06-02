@@ -67,15 +67,16 @@ class OrderData(models.Model):
     )
     drink           = models.CharField(max_length=1, choices=DRINKS, default='6')
     numberOfDrinks  = models.IntegerField(default=0)
-    # SAUCES = (
-    #     ('1', 'Sos pomidorowy'),
-    #     ('2', 'Sos czosnkowy'),
-    #     ('3', 'Sos BBQ'),
-    #     ('4', 'Sos orientalny'),
-    #     ('5', 'Sos tysiąca wysp'),
-    # )
-    # sauce           = models.CharField(max_length=1, choices=SAUCES, default='1')
-    # numberOfSauces  = models.IntegerField(default=1)
+    SAUCES = (
+        ('1', 'Sos pomidorowy'),
+        ('2', 'Sos czosnkowy'),
+        ('3', 'Sos BBQ'),
+        ('4', 'Sos orientalny'),
+        ('5', 'Sos tysiąca wysp'),
+        ('6', 'Bez sosu'),
+    )
+    sauce           = models.CharField(max_length=1, choices=SAUCES, default='6')
+    numberOfSauces  = models.IntegerField(default=0)
     #to potrzebne do sprawdzania zamówień danej pizzerii
     orderNumber     = models.BigIntegerField(default=0)
     PAYMETHODS = (

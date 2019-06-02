@@ -101,6 +101,8 @@ def OrderList(request):
         'couponCode': '',
         'drink': '',
         'numberOfDrinks': '0',
+        'sauce': '',
+        'numberOfSauces': '0',
         'pizzas': pizzas
     }
     if request.method == "POST":
@@ -109,6 +111,17 @@ def OrderList(request):
         print ("*" * 25)
         idPizr = request.POST.get('IdPizzPOST')
         print(idPizr)
+
+        pizzaTable = Pizza.objects.all()
+        context['pizzaTable'] = pizzaTable
+
+        pim = PositionInMenu.objects.filter(pizzeria_id=idPizr)
+        listOfPizzas = [obj.Pizza_FK for obj in pim]
+        listOfPizzas = list(set(listOfPizzas))
+        print(listOfPizzas)
+        context['listOfPizzas'] = listOfPizzas
+
+
         context['IdPizzPOST'] = idPizr
         pizr = Pizzeria.objects.get(id=idPizr)
         context['NazwaPOST'] = pizr.name
@@ -130,6 +143,15 @@ def OrderList(request):
                 OrderSum = OrderSum + numberOfDrinks*Decimal('3.00')
             else:
                 context['numberOfDrinks'] = '0'
+        if request.POST.get('sauce'):
+            context['sauce'] = request.POST.get('sauce')
+            context['numberOfSauces'] = request.POST.get('numberOfSauces')
+            sauce = request.POST.get('sauce')
+            if sauce != '6':
+                numberOfSauces = Decimal(request.POST.get('numberOfSauces'))
+                OrderSum = OrderSum + numberOfSauces*Decimal('2.00')
+            else:
+                context['numberOfSauces'] = '0'
         context['OrderSum'] = OrderSum
         context['coupon_obj'] = None
         OrderSumDiscount = Decimal('0.00')
@@ -161,7 +183,9 @@ def OrderHead(request):
         # ten obiekt jest stworzony na chwile i trzyma id tak zeby moc potem wyswietlic sama nazwe
         orderdata_obj = OrderData(
             drink = request.POST.get('drink'),
-            numberOfDrinks = request.POST.get('numberOfDrinks')
+            numberOfDrinks = request.POST.get('numberOfDrinks'),
+            sauce = request.POST.get('sauce'),
+            numberOfSauces = request.POST.get('numberOfSauces')
         )
         context['orderdata_obj'] = orderdata_obj
         my_form = OrderHeadForm(request.POST)
@@ -223,6 +247,8 @@ def OrderPlaced(request):
         pphoneNumber=request.POST.get('phoneNumber')
         pdrink=request.POST.get('drink')
         pnumberOfDrinks=request.POST.get('numberOfDrinks')
+        psauce=request.POST.get('sauce')
+        pnumberOfSauces=request.POST.get('numberOfSauces')
         while True:
             porderNumber=randint(500000, 1000000)
             print(porderNumber)
@@ -247,6 +273,8 @@ def OrderPlaced(request):
             pizzeria = ppizzeria,
             drink=pdrink,
             numberOfDrinks=pnumberOfDrinks,
+            sauce = psauce,
+            numberOfSauces = pnumberOfSauces,
             orderNumber = porderNumber,
             pay = ppay,
             Coupon_FK = pcoupon
