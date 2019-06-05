@@ -7,13 +7,13 @@
     <form action="/SelectPizzeria/" method = "POST" id="formChoicePizz">
         {% csrf_token %}
 
-        <div class="fieldWrapper">
+        <div class="field">
             <label for="{{ form.cfPizzeria.id_for_label }}">Wybierz pizzerię: </label>
             {{ form.cfPizzeria }}
         </div>
 
         <br>
-        <div class="fieldWrapper">
+        <div class="field">
             <input type="submit" class="btn btn-danger btn-lg" value="Szukaj">
         </div>
     </form>
@@ -38,7 +38,7 @@
                    hidden readonly form="formToOrder">
             <!---->
 
-              <div class="fieldWrapper">
+              <div class="field">
                    <input type="submit" value="Przygotuj zamówienie w {{ NazwaPOST}}" form="formToOrder" class="btn btn-danger btn-lg">
               </div>
 

@@ -1,38 +1,45 @@
 {% extends "Home/base.html" %}
 {% block content %}
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/OrderHead.css' %}">
+
 {% if OrderSum > OrderSumDiscount and OrderSumDiscount != '0.00' %}
-    <u><h4>Wartość zamówienia: <i>{{ OrderSumDiscount }}</i> </h4></u>
+    <h4 class="tekst">Wartość zamówienia: <i>{{ OrderSumDiscount }}</i> </h4>
 {% else %}
-    <u><h4>Wartość zamówienia: <i>{{ OrderSum }}</i> </h4></u>
+    <h4 class="tekst">Wartość zamówienia: <i>{{ OrderSum }}</i> </h4>
 {% endif %}
+<h4 class="tekst">Zamówienie w pizzeri: <i>{{ NazwaPOST }}</i></h4>
 <br>
 <hr>
-<h3>Zamówienie w pizzeri: <i>{{ NazwaPOST }}</i></h3>
-<p>
+<p class="tekst3">
     Wybrane pizze:
     {% for posim in positionMenu %}
         {% if posim.countTmp != 0 %}
-            <h3>{{ posim.pizzaSize }}</h3>
+            {{ posim.Pizza_FK }} w rozmiarze
+            <strong>{{ posim.pizzaSize }}</strong>
+            <p class="tekst3">
             {{ posim.price }}
             {% if posim.Pizza_FK.looseOfPrice != 0 %}
                 ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
             {% endif %}
-            {{ posim.Pizza_FK }}
+            <!--{{ posim.Pizza_FK }}-->
             ilość: {{ posim.countTmp }}
             <br>
         {% endif %}
     {% endfor %}
+<p class="tekst3">
     Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
+<p class="tekst3">
     Zamówione przez Ciebie sosy to: {{ orderdata_obj.get_sauce_display }} w ilości: {{orderdata_obj.numberOfSauces }}
 </p>
 <hr>
-<h1>Wypełnij dane do przesłania zamówienia</h1>
-<h3>Dane do przesłania zamówienia</h3>
+<h2 class="tekst">Wypełnij dane do przesłania zamówienia</h2>
+<h4 class="tekst">Dane do przesłania zamówienia</h4>
 <!-- ty wpisać FORM dla tabeli OrderData -->
 
 <hr>
-<h3>Wprowadź dane osobowe i adres dowozu zamówienia</h3>
+<h4 class="tekst2">Wprowadź dane osobowe i adres dowozu zamówienia</h4>
 
 <form action='/OrderPlaced/' method='POST'> {% csrf_token %}
     <!--techniczne utrzymanie danych do sesji (słabe do rozwiniecia w session -->
@@ -62,7 +69,9 @@
     <!--<label for="{{ form.nameAndSurname.id_for_label }}">Imię i nazwisko </label>-->
     <!--{{ form.nameAndSurname }}-->
     {{form.as_p}}
-    <input type="submit" value="Wyślij zamówienie">
+    <div class="field">
+        <input type="submit" value="Wyślij zamówienie" class="btn btn-danger btn-lg">
+    </div>
 </form>
 
 

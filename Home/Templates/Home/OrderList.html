@@ -1,10 +1,12 @@
 {% extends "Home/base.html" %}
 {% block content %}
-<h1>Wybierz zamawiane pizze i okreś ich ilość</h1>
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/OrderList.css' %}">
 
+<h3 class="tekst">Wybierz zamawiane pizze i okreś ich ilość</h3>
 
-<h2>Pizzeria {{ NazwaPOST }} </h2>
+<h4 class="tekst">Pizzeria {{ NazwaPOST }} </h4>
 <br>
 <hr>
     <form action="/OrderHead/" method="POST" id="formOrderLstToHead">
@@ -40,12 +42,14 @@
     <form action="/OrderList/" method="POST" id="formOrderLst">
         {% csrf_token %}
 
-        <div style = "max-width:500px;">
-           <button id = "btnClc" class="myButton" type = "submit"
+
+        <div class="field">
+           <input type = "submit" id = "btnClc" class="btn btn-danger btn-lg" type = "submit"
               value = "Oblicz" form="formOrderLst">
-              <strong>Oblicz</strong>
-           </button>
+
+
             <br>
+            <div class="field">
             <label>Wprowadź kod rabatowy:
             <input type="text" name="couponCode" value="{{ couponCode }}"></label>
             {% if coupon_obj is None and couponCode != '' %}
@@ -54,28 +58,14 @@
                 <br>
             {% endif %}
             {% if OrderSum != 0 %}
-               <button id = "btnPlcOrder" class="myButton" type = "submit"
+               <input type="submit" button id = "btnPlcOrder" class="btn btn-danger" type = "submit"
                   value = "Złóż zamówienie" form="formOrderLstToHead">
-                  <strong>Złóż zamówienie</strong>
-               </button>
             {% endif %}
-            <style>
-            .myButton {
-                  background-color: #07AF50; /* Green */
-                  border: none;
-                  color: black;
-                  padding: 15px 32px;
-                  text-align: center;
-                  text-decoration: none;
-                  font-size: 16px;
-                  margin: 4px 2px;
-                  cursor: pointer;
-            }
-            .myButton:hover {
-                background-color:#5cbf2a;
-            }
-            </style>
+            </div>
         </div>
+            <!-- style -->
+
+
         <hr>
         <p>
             Kwota przed rabatem: <strong> {{OrderSum}} </strong>
@@ -164,18 +154,11 @@
             {{ posim.pizzeria_id }}
         {% endfor %}
 
-
-
         </p>
 
     </form>
-
-
-
-
+<!--
 <table border="5" height="300">
-
-
     <br>
     <br>
     {% for pizza in pizzaTable  %}
@@ -206,10 +189,5 @@
         {% endif %}
     {% endfor %}
 </table>
-
-
-
-
+-->
 {% endblock content %}
-
-

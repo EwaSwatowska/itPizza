@@ -1,0 +1,23 @@
+.tekst{
+    padding: 20px;
+    text-align: center;
+    color: saddlebrown;
+}
+.myButton {
+    background-color: #07AF50; /* Green */
+    border: none;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+.myButton:hover {
+    background-color:#5cbf2a;
+}
+.field{
+    text-align: center;
+    padding: 20px;
+}
