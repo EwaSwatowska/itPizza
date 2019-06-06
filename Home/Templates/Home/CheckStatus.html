@@ -1,54 +1,54 @@
 {% extends "Home/base.html" %}
 {% block content %}
 
-<h3>podaj numer</h3>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/CheckStatus.css' %}">
 
-<form action="/CheckStatus/" method = "POST">
+<h3 class="tekst">Podaj numer zamówienia</h3>
+
+<form action="/CheckStatus/" method = "POST" style="text-align: center">
     {% csrf_token %}
 
-    <input type="text" name="orderNumber" value="{{ orderNumber }}">
+    <input type="text" name="orderNumber" value="{{ orderNumber }}" style="text-align: center">
 
-    <br>
-    <div style = "max-width:470px;">
-    <center>
-       <button style = "border:0px; background-color:#4285F4; margin-top:8%;
-          height:35px; width:80%;margin-left:19%;" type = "submit"
-          value = "sprawdz" >
-          <strong>Sprawdź</strong>
-       </button>
-    </center>
+    <div class="field">
+        <input type="submit" value="Sprawdź" class="btn btn-danger btn-lg">
     </div>
 </form>
 
+<div class="tekst">
 {% if orderData is not null %}
 
-    <h2> Zamówienie realizuje pizzeria <i>{{ orderData.pizzeria.name }}</i></h2>
-    <u><h4>Wartość zamówienia: <i>{{ orderData.total }}</i> </h4></u>
-    <br>
-    <h4> Zamówiłeś następujące pizze: </h4>
-    <p>
-        {% for op in orderPosition %}
-            <h3>{{ op.positionInMenu_id.get_pizzaSize_display }}</h3>
-            {{ op.positionInMenu_id.Pizza_FK }}
-            {{ op.positionInMenu_id.price }}
-            ilość: {{ op.numberOfPIM }}
-            <br>
-        {% endfor %}
-        Zamówione przez Ciebie napoje to: {{ orderData.get_drink_display }} w ilości: {{ orderData.numberOfDrinks }}
-        Zamówione przez Ciebie sosy to: {{ orderData.get_sauce_display }} w ilości: {{ orderData.numberOfSauces }}
-    </p>
-    <hr>
-    <h1>Zamówienie zostanie wysłane na podany adres</h1>
+    <h4> Zamówienie realizuje pizzeria <i>{{ orderData.pizzeria.name }}</i></h4>
+    <h4>Wartość zamówienia: <i>{{ orderData.total }}</i> </h4>
+    <div class="tekst">
+        <h4> Zamówiłeś następujące pizze: </h4>
+        <p class="tekst2">
+            {% for op in orderPosition %}
+                {{ op.positionInMenu_id.Pizza_FK }} w rozmiarze
+                <strong>{{ op.positionInMenu_id.get_pizzaSize_display }}</strong>
+                <p class="tekst2">{{ op.positionInMenu_id.price }}
+                ilość: {{ op.numberOfPIM }}
+            {% endfor %}
+        </p>
+        <p class="tekst2">
+            Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
+        </p>
+        <p class="tekst2">
+            Zamówione przez Ciebie sosy to: {{ orderdata_obj.get_sauce_display }} w ilości: {{orderdata_obj.numberOfSauces }}
+        </p>
+    </div>
+    <div class="tekst">
+        <h3>Zamówienie zostanie wysłane na podany adres</h3>
+        <h3> {{ orderData.nameAndSurname }} </h3>
+        <h3> To jest Twój numer zamówienia: {{orderData.orderNumber }}</h3>
+        <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
+        <h3>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h3>
 
-    <br><br><br>
-    <h1> {{ orderData.nameAndSurname }} </h1>
-    <br>
+        {% elif orderNumber is not null and orderNumber != '' %}
+            <h3> Zamówienie o numerze {{ orderNumber }} nie istnieje. </h3>
+        {% endif %}
+    </div>
+</div>
 
-    <h1> To jest numer zamówienia: {{orderData.orderNumber }}</h1>
-    <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
-    <h2>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h2>
-
-{% elif orderNumber is not null and orderNumber != '' %}
-    <h1> Zamówienie o numerze {{ orderNumber }} nie istnieje. </h1>
-{% endif %}
 {% endblock content %}
