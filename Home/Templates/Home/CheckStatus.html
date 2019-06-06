@@ -17,48 +17,47 @@
 </form>
 
 <div>
-{% if orderData is not null %}
-    <h3><strong>Aktualny status zamówienia: {{orderData.get_orderStatus_display }}</strong></h3> <br><br>
-    <h4> Zamówienie realizuje pizzeria <i>{{ orderData.pizzeria.name }}</i></h4>
-    <h4>Wartość zamówienia: <i>{{ orderData.total }}</i> </h4>
-    <center><h3 class="tekst">Twoje zamówienie</h3></center>
-    <center><table>
-        <tr>
-            <td width="550"><strong> WYBRANE POZYCJE MENU </strong></td>
-            <td width="50"><strong> ILOŚĆ </strong></td>
-        </tr>
-
-        {% for op in orderPosition %}
+    {% if orderData is not null %}
+        <h3><strong>Aktualny status zamówienia: {{orderData.get_orderStatus_display }}</strong></h3> <br><br>
+        <h4> Zamówienie realizuje pizzeria <i>{{ orderData.pizzeria.name }}</i></h4>
+        <h4>Wartość zamówienia: <i>{{ orderData.total }}</i> </h4>
+        <center><h3 class="tekst">Twoje zamówienie</h3></center>
+        <center><table>
             <tr>
-                <td>{{ op.positionInMenu_id.Pizza_FK }} w rozmiarze <strong>{{ op.positionInMenu_id.get_pizzaSize_display }}</strong></td>
-                <td>{{ op.numberOfPIM }}</td>
-             </tr>
-        {% endfor %}
+                <td width="550"><strong> WYBRANE POZYCJE MENU </strong></td>
+                <td width="50"><strong> ILOŚĆ </strong></td>
+            </tr>
 
-        <tr>
-            <td>{{ orderData.get_drink_display }}</td>
-            <td>{{ orderData.numberOfDrinks }}</td>
-        </tr>
-        <tr>
-            <td>{{ orderData.get_sauce_display }}</td>
-            <td>{{ orderData.numberOfSauces }}</td>
-    </table></center>
-    <hr>
-    <h3 class="tekst">Dane kontaktowe</h3>
-    <div>
-        <center>
-            <strong>Imię i nazwisko: </strong> {{ orderData.nameAndSurname }} <br>
-            <strong> Adres: </strong> {{ orderData.street }} {{ orderData.streetNumber }}/{{ orderData.houseNumber }} <br>
-            <strong> Adres email: </strong> {{ orderData.email }} <br>
-            <strong> Numer telefonu: </strong> {{ orderData.phoneNumber }} <br>
-            <strong>Forma płatności: </strong> {{ orderData.get_pay_display }} <br>
-        </center>
-    </div>
+            {% for op in orderPosition %}
+                <tr>
+                    <td>{{ op.positionInMenu_id.Pizza_FK }} w rozmiarze <strong>{{ op.positionInMenu_id.get_pizzaSize_display }}</strong></td>
+                    <td>{{ op.numberOfPIM }}</td>
+                </tr>
+            {% endfor %}
 
-        {% elif orderNumber is not null and orderNumber != '' %}
-            <h3> Zamówienie o numerze {{ orderNumber }} nie istnieje. </h3>
-        {% endif %}
-    </div>
+            <tr>
+                <td>{{ orderData.get_drink_display }}</td>
+                <td>{{ orderData.numberOfDrinks }}</td>
+            </tr>
+            <tr>
+                <td>{{ orderData.get_sauce_display }}</td>
+                <td>{{ orderData.numberOfSauces }}</td>
+        </table></center>
+        <hr>
+        <h3 class="tekst">Dane kontaktowe</h3>
+        <div>
+            <center>
+                <strong>Imię i nazwisko: </strong> {{ orderData.nameAndSurname }} <br>
+                <strong> Adres: </strong> {{ orderData.street }} {{ orderData.streetNumber }}/{{ orderData.houseNumber }} <br>
+                <strong> Adres email: </strong> {{ orderData.email }} <br>
+                <strong> Numer telefonu: </strong> {{ orderData.phoneNumber }} <br>
+                <strong>Forma płatności: </strong> {{ orderData.get_pay_display }} <br>
+            </center>
+        </div>
+
+    {% elif orderNumber is not null and orderNumber != '' %}
+        <h3> Zamówienie o numerze {{ orderNumber }} nie istnieje. </h3>
+    {% endif %}
 </div>
 
 {% endblock content %}
