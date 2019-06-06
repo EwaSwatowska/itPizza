@@ -16,36 +16,50 @@
 
 <br>
 <hr>
-
-<h4 class="tekst2"> Zamówiłeś następujące pizze: </h4>
+<center><h3 class="tekst">Twoje zamówienie</h3></center>
 <p class="tekst3">
-    {% for posim in positionMenu %}
-        {% if posim.countTmp != 0 %}
-            {{ posim.Pizza_FK }} w rozmiarze
-            <strong>{{ posim.pizzaSize }}</strong>
-            <p class="tekst3">
-            {{ posim.price }}
-            {% if posim.Pizza_FK.looseOfPrice != 0 %}
-                ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
+    <table>
+        <tr>
+            <td width="550"><strong> WYBRANE POZYCJE MENU </strong></td>
+            <td width="50"><strong> ILOŚĆ </strong></td>
+        </tr>
+
+        {% for posim in positionMenu %}
+            {% if posim.countTmp != 0 %}
+                <tr>
+                    <td>{{ posim.Pizza_FK }} w rozmiarze <strong>{{ posim.get_pizzaSize_display }}</strong></td>
+                    <td>{{ posim.countTmp }}</td>
+                 </tr>
             {% endif %}
-            ilość: {{ posim.countTmp }}
-            <br>
-        {% endif %}
-    {% endfor %}
-<p class="tekst3">
-    Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
-<p class="tekst3">
-    Zamówione przez Ciebie sosy to: {{ orderdata_obj.get_sauce_display }} w ilości: {{orderdata_obj.numberOfSauces }}
-<hr>
-<h3 class="tekst">Zamówienie zostanie wysłane na podany adres</h3>
+        {% endfor %}
 
-<div class="tekst">
-    <h3> {{ orderData.nameAndSurname }} </h3>
+        <tr>
+            <td>{{ orderData.get_drink_display }}</td>
+            <td>{{ orderData.numberOfDrinks }}</td>
+        </tr>
+        <tr>
+            <td>{{ orderData.get_sauce_display }}</td>
+            <td>{{ orderData.numberOfSauces }}</td>
+    </table>
+<hr>
+<h3 class="tekst">Dane kontaktowe</h3>
+
+<div>
+    <strong>Imię i nazwisko: </strong> {{ orderData.nameAndSurname }} <br>
+    <strong> Adres: </strong> {{ orderData.street }} {{ orderData.streetNumber }}/{{ orderData.houseNumber }} <br>
+    <strong> Adres email: </strong> {{ orderData.email }} <br>
+    <strong> Numer telefonu: </strong> {{ orderData.phoneNumber }} <br>
     <br>
-    <h3>Forma płatności: {{ orderData.get_pay_display }}</h3>
-    <h3> To jest numer zamówienia: {{orderData.orderNumber }}</h3>
-    <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
-    <h3>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h3>
+    <br>
+    <strong>Wybrana forma płatności: </strong> {{ orderData.get_pay_display }} <br>
+    <strong> Wygenerowany numer zamówienia: {{ orderData.orderNumber }}</strong> <br>
+
+    <p>ZAPAMIĘTAJ POWYŻSZY NUMER, BY ZA JEGO POMOCĄ SPRAWDZIĆ STATUS ZAMÓWIENIA. </p> <br>
+
+    <strong>Aktualny status zamówienia: {{orderData.get_orderStatus_display }}</strong> <br>
+    <p>W celu uzyskania informacji o kolejnych statusach zamówienia,
+        wróć na stronę główną i naciśnij przycisk "Sprawdź status zamówienia".
+    </p>
 </div>
 
 {% endblock content %}

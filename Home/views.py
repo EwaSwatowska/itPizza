@@ -163,7 +163,7 @@ def OrderList(request):
                 numOfCoupDone = OrderData.objects.filter(Coupon_FK=coupon_obj).count()
                 print(numOfCoupDone)
                 if numOfCoupDone < coupon_obj.numberOfCoupons:
-                    OrderSumDiscount = OrderSum*(1-Decimal(coupon_obj.discount)/Decimal('100.00'))
+                    OrderSumDiscount = round(OrderSum*(1-Decimal(coupon_obj.discount)/Decimal('100.00')),2)
                     context['coupon_obj'] = coupon_obj
         context['OrderSumDiscount'] = OrderSumDiscount
 
