@@ -1,10 +1,12 @@
 {% extends "Home/base.html" %}
 {% block content %}
-<h1>Wybierz zamawiane pizze i okreś ich ilość</h1>
 
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/OrderList.css' %}">
 
+<h3 class="tekst">Wybierz zamawiane pizze i okreś ich ilość</h3>
 
-<h2>Pizzeria {{ NazwaPOST }} </h2>
+<h4 class="tekst">Pizzeria {{ NazwaPOST }} </h4>
 <br>
 <hr>
     <form action="/OrderHead/" method="POST" id="formOrderLstToHead">
@@ -40,42 +42,35 @@
     <form action="/OrderList/" method="POST" id="formOrderLst">
         {% csrf_token %}
 
-        <div style = "max-width:500px;">
-           <button id = "btnClc" class="myButton" type = "submit"
+
+        <div class="field">
+           <input type = "submit" id = "btnClc" class="btn btn-danger btn-lg" type = "submit"
               value = "Oblicz" form="formOrderLst">
-              <strong>Oblicz</strong>
-           </button>
+
+
             <br>
-            <label>Wprowadź kod rabatowy:
-            <input type="text" name="couponCode" value="{{ couponCode }}"></label>
-            {% if coupon_obj is None and couponCode != '' %}
+            <div class="field">
+                <label>Wprowadź kod rabatowy:
+                <input type="text" name="couponCode" value="{{ couponCode }}"></label>
+                {% if coupon_obj is None and couponCode != '' %}
+                    <br>
+                    <small>Wprowadzony kod jest niepoprawny lub limit rabatów dla niego jest już wykorzystany.</small>
+                    <br>
+                {% endif %}
                 <br>
-                <small>Wprowadzony kod jest niepoprawny lub limit rabatów dla niego jest już wykorzystany.</small>
                 <br>
-            {% endif %}
-            {% if OrderSum != 0 %}
-               <button id = "btnPlcOrder" class="myButton" type = "submit"
-                  value = "Złóż zamówienie" form="formOrderLstToHead">
-                  <strong>Złóż zamówienie</strong>
-               </button>
-            {% endif %}
-            <style>
-            .myButton {
-                  background-color: #07AF50; /* Green */
-                  border: none;
-                  color: black;
-                  padding: 15px 32px;
-                  text-align: center;
-                  text-decoration: none;
-                  font-size: 16px;
-                  margin: 4px 2px;
-                  cursor: pointer;
-            }
-            .myButton:hover {
-                background-color:#5cbf2a;
-            }
-            </style>
+                <h6> Pamiętaj, żeby przeliczyć wartość zamówienia po każdej wprowadzonej w nim zmianie (po wpisaniu kodu rabatowego również).</h6>
+                <h6> Pomijając ten krok Twoje zamówienie może być niekompletne, bądź mieć nieprawidłową wartość.</h6>
+                <br>
+                {% if OrderSum != 0 %}
+                   <input type="submit" button id = "btnPlcOrder" class="btn btn-danger" type = "submit"
+                      value = "Złóż zamówienie" form="formOrderLstToHead">
+                {% endif %}
+            </div>
         </div>
+            <!-- style -->
+
+
         <hr>
         <p>
             Kwota przed rabatem: <strong> {{OrderSum}} </strong>
@@ -152,64 +147,39 @@
                    hidden readonly form="formOrderLst">
             <!---->
 
-        {% for posim in positionMenu %}
-            <h3>{{ posim.pizzaSize }}</h3>
-            {{ posim.price }}
-            {% if posim.Pizza_FK.looseOfPrice != 0 %}
-                ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
-            {% endif %}
-            {{ posim.Pizza_FK }}
-            <input type="text" name="PosListPizz_{{ posim.id }}" value={{ posim.countTmp }} size = "2" maxlength = "2" form="formOrderLst">
-            <br>
-            {{ posim.pizzeria_id }}
-        {% endfor %}
-
-
-
-        </p>
-
+            <table>
+                <tr>
+                    <td><strong> PIZZA + SKŁADNIKI </strong></td>
+                    <td><strong> ROZMIAR </strong></td>
+                    <td><strong> CENA (+ceny promocyjne) </strong></td>
+                    <td><strong> ILOŚĆ </strong></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                {% for posim in positionMenu %}
+                    <tr>
+                        <td width="370">{{ posim.Pizza_FK }}</td>
+                        <td width="90">{{ posim.get_pizzaSize_display }}</td>
+                        <td width="200">{{ posim.price }}
+                            {% if posim.Pizza_FK.looseOfPrice != 0 %}
+                                ({{ posim.Pizza_FK.looseOfPrice }})
+                            {% endif %}</td>
+                        <td><input type="text" name="PosListPizz_{{ posim.id }}"
+                                   value={{ posim.countTmp }} size = "2" maxlength = "2"
+                                   form="formOrderLst"></td>
+                    </tr>
+                {% endfor %}
+        </table>
     </form>
 
-
-
-
-<table border="5" height="300">
-
-
-    <br>
-    <br>
-    {% for pizza in pizzaTable  %}
-        {% if pizza in listOfPizzas %}
-            <tr>
-                <td colspan="4">{{pizza.name}}</td>
-            </tr>
-            <tr>
-                <td colspan="4">{{ pizza.ingredients }}</td>
-            </tr>
-            <tr align=center valign=middle>
-                <td width="100">small</td>
-                <td width="100">medium</td>
-                <td width="100">big</td>
-                <td width="100">xxl</td>
-            </tr>
-            <tr align=center valign=middle>
-                {% for posim in positionMenu %}
-                    {% if posim.Pizza_FK == pizza %}
-                        {% if posim.pizzaSize == 'S' %}<td>S</td>
-                            {% elif posim.pizzaSize == 'M' %}<td>M</td>
-                                {% elif posim.pizzaSize == 'L' %}<td>L</td>
-                                    {% elif posim.pizzaSize == 'X' %}<td>XXL</td>
-                        {% endif %}
-                    {% endif %}
-                {% endfor %}
-            </tr>
-        {% endif %}
-    {% endfor %}
-</table>
-
-
-
-
 {% endblock content %}
-
-

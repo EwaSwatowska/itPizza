@@ -1,42 +1,51 @@
 {% extends "Home/base.html" %}
 {% block content %}
-<h1> Serdecznie dziękuję za złożenie zamówienia. </h1>
+
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/OrderPlaced.css' %}">
+
+<h3 class="tekst"> Dziękujemy za złożenie zamówienia. </h3>
+<div class="tekst">
+    <h4> Zamówienie zrealizuje pizzeria <i>{{ NazwaPOST }}</i></h4>
+    {% if OrderSum > OrderSumDiscount and OrderSumDiscount != '0.00' %}
+        <h4>Wartość zamówienia: <i>{{ OrderSumDiscount }}</i></h4>
+    {% else %}
+        <h4>Wartość zamówienia : <i>{{ OrderSum }}</i> </h4>
+    {% endif %}
+</div>
+
 <br>
-<h2> Zamówienie zrealizuje pizzeria <i>{{ NazwaPOST }}</i></h2>
-{% if OrderSum > OrderSumDiscount and OrderSumDiscount != '0.00' %}
-    <u><h4>Wartość zamówienia: <i>{{ OrderSumDiscount }}</i> </h4></u>
-{% else %}
-    <u><h4>Wartość zamówienia : <i>{{ OrderSum }}</i> </h4></u>
-{% endif %}
-<br>
-<h4> Zamówiłeś następujące pizze: </h4>
-<p>
+<hr>
+
+<h4 class="tekst2"> Zamówiłeś następujące pizze: </h4>
+<p class="tekst3">
     {% for posim in positionMenu %}
         {% if posim.countTmp != 0 %}
-            <h3>{{ posim.pizzaSize }}</h3>
-            {{ posim.Pizza_FK }}
+            {{ posim.Pizza_FK }} w rozmiarze
+            <strong>{{ posim.pizzaSize }}</strong>
+            <p class="tekst3">
             {{ posim.price }}
+            {% if posim.Pizza_FK.looseOfPrice != 0 %}
+                ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
+            {% endif %}
             ilość: {{ posim.countTmp }}
             <br>
         {% endif %}
     {% endfor %}
-    Zamówione przez Ciebie napoje to: {{ orderData.get_drink_display }} w ilości: {{ orderData.numberOfDrinks }}
-    Zamówione przez Ciebie sosy to: {{ orderData.get_sauce_display }} w ilości: {{ orderData.numberOfSauces }}
-</p>
+<p class="tekst3">
+    Zamówione przez Ciebie napoje to: {{ orderdata_obj.get_drink_display }} w ilości: {{ orderdata_obj.numberOfDrinks }}
+<p class="tekst3">
+    Zamówione przez Ciebie sosy to: {{ orderdata_obj.get_sauce_display }} w ilości: {{orderdata_obj.numberOfSauces }}
 <hr>
-<h1>Zamówienie zostanie wysłane na podany adres</h1>
+<h3 class="tekst">Zamówienie zostanie wysłane na podany adres</h3>
 
-<br><br><br>
-<h1> {{ orderData.nameAndSurname }} </h1>
-<br>
-<h1>Forma płatności:</h1>
-<h4> {{ orderData.get_pay_display }}</h4>
-
-<h1> To jest numer zamówienia: {{orderData.orderNumber }}</h1>
-<p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
-<h2>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h2>
-
-
-
+<div class="tekst">
+    <h3> {{ orderData.nameAndSurname }} </h3>
+    <br>
+    <h3>Forma płatności: {{ orderData.get_pay_display }}</h3>
+    <h3> To jest numer zamówienia: {{orderData.orderNumber }}</h3>
+    <p>*) zapamiętaj powyższy numer, przy jego pomocy sprawdzisz status zamówienia</p>
+    <h3>To jest status zamówienia: {{orderData.get_orderStatus_display }}</h3>
+</div>
 
 {% endblock content %}

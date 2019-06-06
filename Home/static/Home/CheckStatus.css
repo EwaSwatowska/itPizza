@@ -1,8 +1,13 @@
-.field{
+.tekst{
     padding: 20px;
     text-align: center;
+    color: saddlebrown;
 }
-.tekst{
+.tekst2{
     text-align: center;
     color: saddlebrown;
+}
+.field{
+    text-align: center;
+    padding: 20px;
 }

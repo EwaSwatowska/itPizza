@@ -7,13 +7,13 @@
     <form action="/SelectPizzeria/" method = "POST" id="formChoicePizz">
         {% csrf_token %}
 
-        <div class="fieldWrapper">
+        <div class="field">
             <label for="{{ form.cfPizzeria.id_for_label }}">Wybierz pizzerię: </label>
             {{ form.cfPizzeria }}
         </div>
 
         <br>
-        <div class="fieldWrapper">
+        <div class="field">
             <input type="submit" class="btn btn-danger btn-lg" value="Szukaj">
         </div>
     </form>
@@ -38,7 +38,7 @@
                    hidden readonly form="formToOrder">
             <!---->
 
-              <div class="fieldWrapper">
+              <div class="field">
                    <input type="submit" value="Przygotuj zamówienie w {{ NazwaPOST}}" form="formToOrder" class="btn btn-danger btn-lg">
               </div>
 
@@ -48,16 +48,37 @@
     <br>
 
 <p>
-    {% for posim in positionMenu %}
-        <h3>{{ posim.get_pizzaSize_display }}</h3>
-        {{ posim.price }}
-        {% if posim.Pizza_FK.looseOfPrice != 0 %}
-            ({{ posim.Pizza_FK.looseOfPrice }}, promocja itPizza)
-        {% endif %}
-        {{ posim.Pizza_FK}}
-        <br>
-        {{ posim.pizzeria_id }}
-    {% endfor %}
+    <table>
+        <tr>
+            <td><strong> PIZZA + SKŁADNIKI </strong></td>
+            <td><strong> ROZMIAR </strong></td>
+            <td><strong> CENA (+ceny promocyjne) </strong></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        {% for posim in positionMenu %}
+            <tr>
+                <td width="370">{{ posim.Pizza_FK }}</td>
+                <td width="90">{{ posim.get_pizzaSize_display }}</td>
+                <td width="200">{{ posim.price }}
+                    {% if posim.Pizza_FK.looseOfPrice != 0 %}
+                        ({{ posim.Pizza_FK.looseOfPrice }})
+                    {% endif %}</td>
+            </tr>
+        {% endfor %}
+    </table>
+<br>
+<br>
+<h5>Pozycje z dodatkową ceną w nawiasie to pozycje z ceną narzucaną przez portal itPizza :)</h5>
+
 
 </p>
 

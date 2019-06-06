@@ -1,14 +1,11 @@
 {% extends "Home/base.html" %}
 {% block content %}
-<h1>O projekcie Ewy....</h1>
 
-<br>
-<br>
-
-    <form method = 'POST'>
-        {% csrf_token %}
-        <input type="text" name="title" placeholder="Your Title">
-        <input type="submit" value="Save">
-    </form>
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Home/oProjekcie.css' %}">
+<div class="tekst">
+    <h3>Jak korzystać z serwisu itPizza?</h3>
+    <p>to be continued....</p>
+</div>
 
 {% endblock content %}
