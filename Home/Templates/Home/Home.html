@@ -4,13 +4,14 @@
 {% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'Home/Home.css' %}">
 
-<div>
-        <p class="cus">Strona główna portalu do zamawiania pizzy itPizza. Zapraszamy!</p>
+<div class="cus">
+    <p>Strona główna portalu do zamawiania pizzy itPizza. Zapraszamy!
+    <p>Zachęcamy do zapoznania się z instrukcją obsługi aplikacji w zakładce 'O projekcie'.
 </div>
 <div class="cus">
     <a href="http://127.0.0.1:8000/SelectPizzeria/" class="btn btn-danger btn-lg" role="button">Złóż zamówienie</a>
     <a href="http://127.0.0.1:8000/CheckStatus/" class="btn btn-danger btn-lg" role="button">Sprawdź status zamówienia</a>
 </div>
-
-<h6><center>Zachęcamy do zapoznania się z instrukcją obsługi aplikacji w zakładce 'O projekcie'.</center></h6>
+<!--
+<h6><center>Zachęcamy do zapoznania się z instrukcją obsługi aplikacji w zakładce 'O projekcie'.</center></h6>-->
 {% endblock content %}
