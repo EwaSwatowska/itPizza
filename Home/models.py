@@ -96,6 +96,7 @@ class OrderData(models.Model):
         ('3', 'Zamówienie jest pakowane'),
         ('4', 'Zamówienie w dowozie'),
         ('5', 'Zamówienie zakończone'),
+        ('6', 'Zamówienie usunięte z bazy'),
     )
     # w Pizza_FK jest nazwa pizzy, składniki
     orderStatus = models.CharField(max_length=1, choices=ORDER_STATUS, default='1')
